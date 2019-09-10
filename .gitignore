@@ -133,3 +133,4 @@ dmypy.json
 .result
 result
 #chromedriver.exe
+config.ini
