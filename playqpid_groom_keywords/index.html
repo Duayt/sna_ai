@@ -1,0 +1,78 @@
+<!-- Reference: https://www.anychart.com/blog/2019/04/30/create-javascript-word-cloud-chart-tutorial -->
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
+ 	<style>
+        html, body, #container {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        textarea
+        {
+            width: 90%;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            margin-right: 20px;
+            margin-left: 20px;
+        }
+        #container
+        {
+            width: 90%;
+            height: 50%
+        }
+ 	</style> 
+    <script>
+
+        function initTextCloud(data) {
+
+            // create a tag (word) cloud chart
+            var chart = anychart.tagCloud(data);
+
+            // set a chart title
+            //chart.title('Suggested Labels')
+            // set an array of angles at which the words will be laid out
+            chart.angles([0])
+            // enable a color range
+            //chart.colorRange(true);
+            // set the color range length
+            chart.colorRange().length('80%');
+
+            // display the word cloud chart
+            chart.container("container");
+            chart.draw();
+        }
+        
+        anychart.onDocumentReady(function() {
+            
+            var url = "http://192.168.1.36:8080/word_cloud_fmt_3_gramss.json"
+
+            $.get(url, function( data ) {
+
+                var wordCloudData = [];
+                
+                for (var i=0; i<data.length; ++i)
+                    wordCloudData.push(data[i]);
+
+                initTextCloud(wordCloudData);
+            });
+
+            /*
+            var wordCloudData = [];
+            wordCloudData.push({ "x": 'aabb', "value": 50 });
+            wordCloudData.push({ "x": 'aabb', "value": 50 });
+            initTextCloud(wordCloudData);
+            */
+		});
+	</script>
+</head>
+<body>
+
+    <div id="container" ></div>
+
+</body>
+</html>
